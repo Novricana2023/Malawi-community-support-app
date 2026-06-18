@@ -72,7 +72,7 @@ FRONTEND_URL=https://dela-langa-web.onrender.com
 
 | Variable | Service | Set by |
 |----------|---------|--------|
-| `DATABASE_URL` | API | Linked Postgres (`internalConnectionString`) |
+| `DATABASE_URL` | API | Linked Postgres (`connectionString`) |
 | `SECRET_KEY` | API | Auto-generated |
 | `NEXT_PUBLIC_API_URL` | Web | Linked API (`RENDER_EXTERNAL_URL`) |
 | `PYTHON_VERSION` | API | `3.11.9` |
