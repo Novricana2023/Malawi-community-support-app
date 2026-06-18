@@ -1,0 +1,52 @@
+# Dela Langa — Render Blueprint
+# Deploy: Dashboard → New → Blueprint → connect this repo
+# Docs: https://render.com/docs/blueprint-spec
+
+databases:
+  - name: dela-langa-db
+    databaseName: delalanga
+    user: delalanga
+    plan: free
+
+services:
+  # ── FastAPI backend ──────────────────────────────────────────────
+  - type: web
+    name: dela-langa-api
+    runtime: python
+    plan: free
+    region: frankfurt
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/health
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.11.9"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: dela-langa-db
+          property: internalConnectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: UPLOAD_DIR
+        value: uploads
+      - key: EMAIL_ENABLED
+        value: "false"
+
+  # ── Next.js frontend ─────────────────────────────────────────────
+  - type: web
+    name: dela-langa-web
+    runtime: node
+    plan: free
+    region: frankfurt
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_VERSION
+        value: "20.11.0"
+      - key: NEXT_PUBLIC_API_URL
+        fromService:
+          type: web
+          name: dela-langa-api
+          envVarKey: RENDER_EXTERNAL_URL
