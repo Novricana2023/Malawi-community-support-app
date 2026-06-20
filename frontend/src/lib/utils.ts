@@ -1,5 +1,6 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { SolvedReport } from "./types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -48,8 +49,8 @@ export function formatDateOnly(date: string) {
   });
 }
 
-export function groupSolvedByDate(reports: { resolved_at?: string; [key: string]: unknown }[]) {
-  const groups = new Map<string, typeof reports>();
+export function groupSolvedByDate(reports: SolvedReport[]): [string, SolvedReport[]][] {
+  const groups = new Map<string, SolvedReport[]>();
   for (const report of reports) {
     const key = report.resolved_at ? formatDateOnly(report.resolved_at) : "Date unknown";
     if (!groups.has(key)) groups.set(key, []);

@@ -42,9 +42,7 @@ export function SolvedIssuesList({
             <div className="h-px flex-1 bg-emerald-200" />
           </div>
           <div className="space-y-3">
-            {dayReports.map((report) => {
-              const r = report as SolvedReport;
-              return (
+            {dayReports.map((r) => (
                 <Link key={r.id} href={`${linkPrefix}/${r.id}`}>
                   <Card className="hover:shadow-md transition-all cursor-pointer border-l-4 border-l-green-500">
                     <CardContent className="py-4">
@@ -94,8 +92,7 @@ export function SolvedIssuesList({
                     </CardContent>
                   </Card>
                 </Link>
-              );
-            })}
+              ))}
           </div>
         </div>
       ))}
