@@ -7,6 +7,7 @@ databases:
     databaseName: delalanga
     user: delalanga
     plan: free
+    region: frankfurt
 
 services:
   # ── FastAPI backend ──────────────────────────────────────────────
@@ -22,10 +23,26 @@ services:
     envVars:
       - key: PYTHON_VERSION
         value: "3.11.9"
-      - key: DATABASE_URL
+      - key: PGHOST
         fromDatabase:
           name: dela-langa-db
-          property: connectionString
+          property: host
+      - key: PGPORT
+        fromDatabase:
+          name: dela-langa-db
+          property: port
+      - key: PGUSER
+        fromDatabase:
+          name: dela-langa-db
+          property: user
+      - key: PGPASSWORD
+        fromDatabase:
+          name: dela-langa-db
+          property: password
+      - key: PGDATABASE
+        fromDatabase:
+          name: dela-langa-db
+          property: database
       - key: SECRET_KEY
         generateValue: true
       - key: UPLOAD_DIR

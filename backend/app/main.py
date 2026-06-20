@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
 from app.config import settings
-from app.database import engine, Base, SessionLocal
+from app.database import engine, Base, SessionLocal, wait_for_database
 from app.routers import auth, reports, dashboard
 from app.models.department import Department
 from app.models.user import User, UserRole
@@ -14,6 +14,7 @@ from app.services.user_service import get_or_create_user
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    wait_for_database()
     Base.metadata.create_all(bind=engine)
     os.makedirs(settings.UPLOAD_DIR, exist_ok=True)
     db = SessionLocal()

@@ -202,8 +202,9 @@ For a government demo or pilot, consider:
 
 | Problem | Fix |
 |---------|-----|
+| `could not translate host name "dpg-...-a"` | **Region mismatch** — API and Postgres must be in the same region (e.g. both Frankfurt). Delete the old database, push the latest `render.yaml`, and redeploy the Blueprint. |
 | Frontend can't reach API | Check `NEXT_PUBLIC_API_URL` on web service; redeploy frontend after changing it |
-| Database connection error | Ensure API uses **Internal** Database URL, not External |
+| Database connection error | Ensure API uses Postgres env vars (`PGHOST`, `PGPORT`, etc.) from the linked database |
 | CORS errors | API allows `*.onrender.com`; set `FRONTEND_URL` if using custom domain |
 | Build fails on Python | Confirm `runtime.txt` shows `python-3.11.9` |
 | Build fails on Node | Confirm `.nvmrc` shows `20.11.0` |
